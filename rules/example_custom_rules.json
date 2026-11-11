@@ -1,0 +1,18 @@
+[
+  {
+    "rule_id": "CUST-001",
+    "name": "Enforce Parameterized Database Queries",
+    "pattern": "(?i)(SELECT|INSERT|UPDATE|DELETE).*\\+.*",
+    "category": "SQL injection",
+    "severity": "CRITICAL",
+    "message": "All database queries must use parameterized placeholders instead of string concatenation."
+  },
+  {
+    "rule_id": "CUST-002",
+    "name": "Forbidden External Network Calls in Handlers",
+    "pattern": "(?i)http\\.Get\\(.*r\\.URL",
+    "category": "SSRF",
+    "severity": "HIGH",
+    "message": "Do not execute unvalidated external HTTP calls directly from HTTP request handlers."
+  }
+]

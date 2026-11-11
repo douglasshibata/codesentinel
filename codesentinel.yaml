@@ -1,0 +1,40 @@
+version: "1.0"
+server:
+  host: "0.0.0.0"
+  port: 8080
+  read_timeout_sec: 30
+  write_timeout_sec: 60
+
+database:
+  type: "postgres" # postgres | sqlite
+  dsn: "postgres://sentinel_usr:Secr3tP@ss@localhost:5432/codesentinel_db?sslmode=require"
+  max_open_conns: 25
+  max_idle_conns: 5
+
+privacy:
+  strict_redaction: true
+  enable_external_llm: true
+  allowed_remote_providers:
+    - "anthropic"
+    - "ollama_internal"
+
+llm_gateway:
+  provider: "anthropic" # anthropic | openai | ollama | mock
+  model: "claude-3-5-sonnet-20241022"
+  temperature: 0.1
+  max_tokens: 1500
+  timeout_sec: 25
+
+policy:
+  fail_fast: true
+  block_on_critical: true
+  max_high_findings: 0
+  max_medium_findings: 3
+  max_risk_score_threshold: 45.0
+  allow_accepted_risk: true
+
+scanners:
+  sarif_inputs:
+    - "./reports/semgrep.sarif"
+    - "./reports/gosec.sarif"
+    - "./reports/trivy.sarif"

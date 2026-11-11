@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: CodeSentinel REST API
+  description: API specification for CodeSentinel Continuous AI Code-Quality Gate
+  version: 1.0.0
+paths:
+  /api/v1/repositories:
+    get:
+      summary: List all connected Git repositories
+      responses:
+        '200':
+          description: A list of repositories
+    post:
+      summary: Connect a new Git repository
+      responses:
+        '201':
+          description: Repository created
+  /api/v1/reviews:
+    post:
+      summary: Trigger an automated review pipeline execution
+      responses:
+        '200':
+          description: Review completed
+  /api/v1/findings:
+    get:
+      summary: List stored code quality and security findings
+      responses:
+        '200':
+          description: Findings list
+  /api/v1/findings/{id}/explain:
+    post:
+      summary: Ask AI Explanation Assistant about a finding
+      responses:
+        '200':
+          description: AI explanation response
+  /api/v1/findings/{id}/patch:
+    post:
+      summary: Generate BEFORE/AFTER fix patch for a finding
+      responses:
+        '200':
+          description: Generated patch

@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: codesentinel-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: sentinel_usr
+      POSTGRES_PASSWORD: Secr3tP@ss
+      POSTGRES_DB: codesentinel_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sentinel_usr -d codesentinel_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  codesentinel:
+    build:
+      context: ..
+      dockerfile: deployments/Dockerfile
+    container_name: codesentinel-server
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - CODESENTINEL_DB_DSN=postgres://sentinel_usr:Secr3tP@ss@postgres:5432/codesentinel_db?sslmode=disable
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres_data:
